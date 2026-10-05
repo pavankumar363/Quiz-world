@@ -1,14 +1,120 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f6fff" />
-    <meta name="description" content="Quiz World — Think. Answer. Compete. Master." />
-    <title>Quiz World</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b5cff">
+  <meta name="description" content="Quiz World — Think. Answer. Compete. Master.">
+  <title>Quiz World</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="Quiz World home">
+        <span class="brand-mark">Q</span>
+        <span>Quiz <strong>World</strong></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+      <nav id="mainNav">
+        <a href="#home">Home</a>
+        <a href="#quizzes">Quizzes</a>
+        <a href="#categories">Categories</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#ai">AI Quiz</a>
+        <button class="btn btn-primary" id="loginBtn">Login</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">THE NEXT GENERATION QUIZ PLATFORM</span>
+          <h1>Think. Answer.<br><span>Compete. Master.</span></h1>
+          <p>Challenge yourself with engaging quizzes, track your performance, and climb the leaderboard.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#quizzes">Explore Quizzes →</a>
+            <button class="btn btn-light" id="challengeBtn">Daily Challenge</button>
+          </div>
+          <div class="hero-stats">
+            <div><strong>10K+</strong><span>Questions</span></div>
+            <div><strong>2.5K+</strong><span>Students</span></div>
+            <div><strong>50+</strong><span>Categories</span></div>
+          </div>
+        </div>
+        <div class="quiz-card">
+          <div class="card-top"><span>Daily Challenge</span><span class="live-dot">● LIVE</span></div>
+          <div class="question-number">QUESTION 01</div>
+          <h2>Which technology is used to structure a web page?</h2>
+          <div class="options">
+            <button>A. CSS</button>
+            <button class="correct">B. HTML <span>✓</span></button>
+            <button>C. JavaScript</button>
+            <button>D. Python</button>
+          </div>
+          <div class="card-progress"><span></span></div>
+          <div class="card-footer"><span>01 / 10</span><span>⏱ 00:42</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quizzes">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">DISCOVER</span><h2>Featured Quizzes</h2></div>
+          <a href="#categories">View all →</a>
+        </div>
+        <div class="quiz-grid">
+          <article class="feature-card"><div class="icon blue">⌘</div><h3>Web Development</h3><p>HTML, CSS, JavaScript and modern web concepts.</p><span>25 Questions · Medium</span><button class="text-btn">Start Quiz →</button></article>
+          <article class="feature-card"><div class="icon purple">✦</div><h3>Artificial Intelligence</h3><p>Test your knowledge of AI and machine learning.</p><span>20 Questions · Hard</span><button class="text-btn">Start Quiz →</button></article>
+          <article class="feature-card"><div class="icon orange">∑</div><h3>Mathematics</h3><p>Sharpen your problem-solving and logical thinking.</p><span>30 Questions · Medium</span><button class="text-btn">Start Quiz →</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="categories">
+      <div class="container">
+        <div class="section-heading"><div><span class="eyebrow">EXPLORE</span><h2>Popular Categories</h2></div></div>
+        <div class="category-grid">
+          <button>💻 <span>Computer Science<small>120+ quizzes</small></span></button>
+          <button>🤖 <span>Artificial Intelligence<small>80+ quizzes</small></span></button>
+          <button>🧮 <span>Mathematics<small>100+ quizzes</small></span></button>
+          <button>🔬 <span>Science<small>90+ quizzes</small></span></button>
+          <button>🌐 <span>General Knowledge<small>150+ quizzes</small></span></button>
+          <button>📚 <span>English<small>70+ quizzes</small></span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="leaderboard">
+      <div class="container leaderboard-wrap">
+        <div><span class="eyebrow">COMPETE</span><h2>Top Performers</h2><p>Compete with students and improve your ranking every day.</p><button class="btn btn-primary" id="leaderboardBtn">View Leaderboard</button></div>
+        <div class="leaderboard">
+          <div class="rank"><b>1</b><span class="avatar">AS</span><strong>Ananya Sharma</strong><em>9,850 XP</em></div>
+          <div class="rank"><b>2</b><span class="avatar">RK</span><strong>Rahul Kumar</strong><em>9,420 XP</em></div>
+          <div class="rank"><b>3</b><span class="avatar">PN</span><strong>Priya N</strong><em>9,180 XP</em></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section" id="ai">
+      <div class="container ai-box">
+        <div><span class="eyebrow">SMART LEARNING</span><h2>Build a Quiz with AI</h2><p>Enter a topic and Quiz World will help you create personalized practice quizzes in seconds.</p></div>
+        <button class="btn btn-white" id="aiBtn">Try AI Quiz →</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer">
+      <div><div class="brand"><span class="brand-mark">Q</span><span>Quiz <strong>World</strong></span></div><p>Think. Answer. Compete. Master.</p></div>
+      <div><span>© 2026 Quiz World</span><span>Built with HTML · CSS · JavaScript</span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="./script.js"></script>
+</body>
 </html>
