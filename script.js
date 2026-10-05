@@ -40,3 +40,9 @@ $("#loginBtn").addEventListener("click", () => toast("Login & Google sign-in wil
 document.querySelectorAll(".category-grid button").forEach((button) => {
   button.addEventListener("click", () => toast(button.querySelector("span").firstChild.textContent.trim() + " selected."));
 });
+
+/* Shared interactions */
+function showToast(message){const e=document.getElementById("toast");if(!e)return;e.textContent=message;e.classList.add("show");clearTimeout(window.__qwToast);window.__qwToast=setTimeout(()=>e.classList.remove("show"),2600)}
+const menu=document.getElementById("menuToggle");if(menu)menu.addEventListener("click",()=>document.getElementById("mainNav").classList.toggle("open"));
+document.querySelectorAll("#mainNav a").forEach(a=>a.addEventListener("click",()=>{const n=document.getElementById("mainNav");if(n)n.classList.remove("open")}));
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");showToast(b.textContent+" selected")}));
