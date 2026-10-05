@@ -23,12 +23,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: Prepare static site
+        run: |
+          rm -rf _site
+          mkdir _site
+          cp *.html style.css script.js _site/
+          if [ -d assets ]; then cp -r assets _site/assets; fi
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
-
+          path: ./_site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
