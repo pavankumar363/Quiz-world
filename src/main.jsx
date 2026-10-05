@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { supabase, isSupabaseConfigured } from './lib/supabase'
 import { createRoot } from 'react-dom/client'
 import {
   ArrowRight,
@@ -39,6 +40,32 @@ function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [code, setCode] = useState('')
   const [joinMessage, setJoinMessage] = useState('')
+  const [authUser, setAuthUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(false)
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    supabase.auth.getUser().then(({ data }) => setAuthUser(data.user ?? null))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setAuthUser(session?.user ?? null))
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const signInWithGoogle = async () => {
+    if (!isSupabaseConfigured) {
+      setJoinMessage('Google sign-in is not configured yet. Add the Supabase environment variables and enable Google in Supabase Auth.')
+      return
+    }
+    setAuthLoading(true)
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } })
+    if (error) setJoinMessage(error.message)
+    setAuthLoading(false)
+  }
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+    setAuthUser(null)
+    navigate('home')
+  }
 
   const navigate = (next) => {
     setPage(next)
@@ -73,7 +100,7 @@ function App() {
             <button onClick={() => navigate('explore')}>Explore</button>
             <button onClick={() => navigate('leaderboard')}>Leaderboard</button>
             <button onClick={() => navigate('ai')}>AI Quiz</button>
-            <button className="nav-login" onClick={() => navigate('login')}>Login</button>
+            <button className="nav-login" onClick={() => navigate(authUser ? 'student' : 'login')}>{authUser ? 'Dashboard' : 'Login'}</button>
           </nav>
 
           <button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
@@ -249,7 +276,7 @@ function App() {
 
             <div className="dashboard-grid">
               <aside className="side-card">
-                <div className="profile-mini"><div className="avatar">S</div><div><strong>Student</strong><small>Quiz World learner</small></div></div>
+                <div className="profile-mini"><div className="avatar">{authUser?.user_metadata?.avatar_url ? <img src={authUser.user_metadata.avatar_url} alt="" /> : (authUser?.user_metadata?.full_name?.[0] || 'S')}</div><div><strong>{authUser?.user_metadata?.full_name || authUser?.email || 'Student'}</strong><small>Quiz World learner</small></div></div>
                 <button className="side-link active">Dashboard</button>
                 <button className="side-link" onClick={() => navigate('join')}>Join Quiz</button>
                 <button className="side-link" onClick={() => navigate('explore')}>Explore Quizzes</button>
@@ -338,10 +365,10 @@ function App() {
               <span className="brand-mark large"><Brain size={24} /></span>
               <span className="section-kicker">WELCOME TO QUIZ WORLD</span>
               <h1>Sign in to continue</h1>
-              <p>Access your role-based dashboard and quiz activity.</p>
+              <p>Access your role-based dashboard and quiz activity.</p><div className="google-signup-note"><strong>New student?</strong> Sign up instantly with your Google account. No separate Quiz World password is required.</div>
               <label>Email<input type="email" placeholder="you@example.com" /></label>
               <label>Password<input type="password" placeholder="••••••••" /></label>
-              <button className="primary-btn full" onClick={() => navigate('student')}>Login <ArrowRight size={18} /></button>
+              <button className="primary-btn full" onClick={() => navigate('student')}>Login <ArrowRight size={18} /></button><div className="auth-divider"><span>or</span></div><button className="google-btn" onClick={signInWithGoogle} disabled={authLoading}><span className="google-logo">G</span>{authLoading ? 'Connecting to Google…' : 'Continue with Google'}</button>{authUser && <button className="text-btn centered" onClick={signOut}>Sign out</button>}
               <button className="text-btn centered" onClick={() => navigate('student')}>Preview Student Dashboard</button>
             </div>
           </div>
